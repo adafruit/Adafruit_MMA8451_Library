@@ -5,7 +5,7 @@
     @license  BSD (see license.txt)
 
     This is a library for the Adafruit MMA8451 Accel breakout board
-    ----> https://www.adafruit.com/products/
+    ----> https://www.adafruit.com/products/2019
 
     Adafruit invests time and resources providing this open source code,
     please support Adafruit and open-source hardware by purchasing
@@ -98,7 +98,7 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   if (deviceid != 0x1A)
   {
     /* No MMA8451 detected ... return false */
-    Serial.println(deviceid, HEX);
+    //Serial.println(deviceid, HEX);
     return false;
   }
 
@@ -106,11 +106,12 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
 
   while (readRegister8(MMA8451_REG_CTRL_REG2) & 0x40);
 
-  // enable 8G range
+  // enable 4G range
   writeRegister8(MMA8451_REG_XYZ_DATA_CFG, MMA8451_RANGE_4_G);
   // High res
   writeRegister8(MMA8451_REG_CTRL_REG2, 0x02);
-
+  // Low noise!
+  writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
   // DRDY on INT1
   writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
   writeRegister8(MMA8451_REG_CTRL_REG5, 0x01);
@@ -118,13 +119,14 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   // Activate!
   writeRegister8(MMA8451_REG_CTRL_REG1, 0x01); // active, max rate
 
-
+  /*
   for (uint8_t i=0; i<0x30; i++) {
     Serial.print("$");
     Serial.print(i, HEX); Serial.print(" = 0x");
     Serial.println(readRegister8(i), HEX);
   }
-  
+  */
+
   return true;
 }
 
