@@ -35,8 +35,7 @@ void setup(void) {
   }
   Serial.println("MMA8451 found!");
   
-  mma.setRange(MMA8451_RANGE_8_G);
-    mma.writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
+  mma.setRange(MMA8451_RANGE_2_G);
   
   Serial.print("Range = "); Serial.print(2 << mma.getRange());  
   Serial.println("G");
