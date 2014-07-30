@@ -1,6 +1,6 @@
 #Adafruit MMA8451 Accelerometer Driver #
 
-This driver is for the Adafruit MMA8451 Breakout (http://www.adafruit.com/products/2019), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
+This driver is for the Adafruit MMA8451 Accelerometer Breakout (http://www.adafruit.com/products/2019), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
 
 ## About the MMA8451 ##
 

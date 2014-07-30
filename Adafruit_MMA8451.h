@@ -29,18 +29,30 @@
 /*=========================================================================
     I2C ADDRESS/BITS
     -----------------------------------------------------------------------*/
-    #define MMA8451_DEFAULT_ADDRESS                 (0x1D)    
+    #define MMA8451_DEFAULT_ADDRESS                 (0x1D)    // if A is GND, its 0x1C
 /*=========================================================================*/
 
 #define MMA8451_REG_OUT_X_MSB     0x01
 #define MMA8451_REG_SYSMOD        0x0B
 #define MMA8451_REG_WHOAMI        0x0D
 #define MMA8451_REG_XYZ_DATA_CFG  0x0E
+#define MMA8451_REG_PL_STATUS     0x10
+#define MMA8451_REG_PL_CFG        0x11
 #define MMA8451_REG_CTRL_REG1     0x2A
 #define MMA8451_REG_CTRL_REG2     0x2B
 #define MMA8451_REG_CTRL_REG4     0x2D
 #define MMA8451_REG_CTRL_REG5     0x2E
 
+
+
+#define MMA8451_PL_PUF            0
+#define MMA8451_PL_PUB            1
+#define MMA8451_PL_PDF            2
+#define MMA8451_PL_PDB            3
+#define MMA8451_PL_LRF            4  
+#define MMA8451_PL_LRB            5  
+#define MMA8451_PL_LLF            6  
+#define MMA8451_PL_LLB            7  
 
 typedef enum
 {
@@ -80,6 +92,8 @@ class Adafruit_MMA8451 : public Adafruit_Sensor {
 
   void getEvent(sensors_event_t *event);
   void getSensor(sensor_t *sensor);
+
+  uint8_t getOrientation(void);
 
   int16_t x, y, z;
   float x_g, y_g, z_g;

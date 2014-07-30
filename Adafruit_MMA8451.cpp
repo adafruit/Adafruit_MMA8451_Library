@@ -77,7 +77,7 @@ uint8_t Adafruit_MMA8451::readRegister8(uint8_t reg) {
 
 /**************************************************************************/
 /*!
-    @brief  Instantiates a new ADXL345 class in I2C mode
+    @brief  Instantiates a new MMA8451 class in I2C mode
 */
 /**************************************************************************/
 Adafruit_MMA8451::Adafruit_MMA8451(int32_t sensorID) {
@@ -115,6 +115,9 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   // DRDY on INT1
   writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
   writeRegister8(MMA8451_REG_CTRL_REG5, 0x01);
+
+  // Turn on orientation config
+  writeRegister8(MMA8451_REG_PL_CFG, 0x40);
 
   // Activate!
   writeRegister8(MMA8451_REG_CTRL_REG1, 0x01); // active, max rate
@@ -157,6 +160,16 @@ void Adafruit_MMA8451::read(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Read the orientation: 
+    Portrait/Landscape + Up/Down/Left/Right + Front/Back
+*/
+/**************************************************************************/
+uint8_t Adafruit_MMA8451::getOrientation(void) {
+  return readRegister8(MMA8451_REG_PL_STATUS) & 0x07;
+}
+
+/**************************************************************************/
+/*!
     @brief  Sets the g range for the accelerometer
 */
 /**************************************************************************/
@@ -175,7 +188,7 @@ void Adafruit_MMA8451::setRange(mma8451_range_t range)
 /**************************************************************************/
 mma8451_range_t Adafruit_MMA8451::getRange(void)
 {
-  /* Red the data format register to preserve bits */
+  /* Read the data format register to preserve bits */
   return (mma8451_range_t)(readRegister8(MMA8451_REG_XYZ_DATA_CFG) & 0x03);
 }
 

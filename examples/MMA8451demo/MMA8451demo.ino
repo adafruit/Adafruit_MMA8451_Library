@@ -26,7 +26,7 @@ Adafruit_MMA8451 mma = Adafruit_MMA8451();
 void setup(void) {
   Serial.begin(9600);
   
-  Serial.println("MMA8451 test!");
+  Serial.println("Adafruit MMA8451 test!");
   
 
   if (! mma.begin()) {
@@ -44,6 +44,7 @@ void setup(void) {
 }
 
 void loop() {
+  // Read the 'raw' data in 14-bit counts
   mma.read();
   Serial.print("X:\t"); Serial.print(mma.x); 
   Serial.print("\tY:\t"); Serial.print(mma.y); 
@@ -55,10 +56,41 @@ void loop() {
   mma.getEvent(&event);
 
   /* Display the results (acceleration is measured in m/s^2) */
-  Serial.print("X: "); Serial.print(event.acceleration.x); Serial.print("  ");
-  Serial.print("Y: "); Serial.print(event.acceleration.y); Serial.print("  ");
-  Serial.print("Z: "); Serial.print(event.acceleration.z); Serial.print("  ");Serial.println("m/s^2 ");
+  Serial.print("X: \t"); Serial.print(event.acceleration.x); Serial.print("\t");
+  Serial.print("Y: \t"); Serial.print(event.acceleration.y); Serial.print("\t");
+  Serial.print("Z: \t"); Serial.print(event.acceleration.z); Serial.print("\t");
+  Serial.println("m/s^2 ");
   
+  /* Get the orientation of the sensor */
+  uint8_t o = mma.getOrientation();
+  
+  switch (o) {
+    case MMA8451_PL_PUF: 
+      Serial.println("Portrait Up Front");
+      break;
+    case MMA8451_PL_PUB: 
+      Serial.println("Portrait Up Back");
+      break;    
+    case MMA8451_PL_PDF: 
+      Serial.println("Portrait Down Front");
+      break;
+    case MMA8451_PL_PDB: 
+      Serial.println("Portrait Down Back");
+      break;
+    case MMA8451_PL_LRF: 
+      Serial.println("Landscape Right Front");
+      break;
+    case MMA8451_PL_LRB: 
+      Serial.println("Landscape Right Back");
+      break;
+    case MMA8451_PL_LLF: 
+      Serial.println("Landscape Left Front");
+      break;
+    case MMA8451_PL_LLB: 
+      Serial.println("Landscape Left Back");
+      break;
+    }
+  Serial.println();
   delay(500);
   
 }
