@@ -90,7 +90,7 @@ class Adafruit_MMA8451 : public Adafruit_Sensor {
   void setDataRate(mma8451_dataRate_t dataRate);
   mma8451_dataRate_t getDataRate(void);
 
-  void getEvent(sensors_event_t *event);
+  bool getEvent(sensors_event_t *event);
   void getSensor(sensor_t *sensor);
 
   uint8_t getOrientation(void);

@@ -220,7 +220,7 @@ mma8451_dataRate_t Adafruit_MMA8451::getDataRate(void)
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
-void Adafruit_MMA8451::getEvent(sensors_event_t *event) {
+bool Adafruit_MMA8451::getEvent(sensors_event_t *event) {
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
 
@@ -234,6 +234,8 @@ void Adafruit_MMA8451::getEvent(sensors_event_t *event) {
   event->acceleration.x = x_g;
   event->acceleration.y = y_g;
   event->acceleration.z = z_g;
+  
+  return true;
 }
 
 /**************************************************************************/
