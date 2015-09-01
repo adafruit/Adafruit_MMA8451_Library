@@ -200,7 +200,7 @@ mma8451_range_t Adafruit_MMA8451::getRange(void)
 void Adafruit_MMA8451::setDataRate(mma8451_dataRate_t dataRate)
 {
   uint8_t ctl1 = readRegister8(MMA8451_REG_CTRL_REG1);
-  ctl1 &= ~(0x28); // mask off bits
+  ctl1 &= ~(0x38); // mask off bits
   ctl1 |= (dataRate << 3);
   writeRegister8(MMA8451_REG_CTRL_REG1, ctl1);
 }
