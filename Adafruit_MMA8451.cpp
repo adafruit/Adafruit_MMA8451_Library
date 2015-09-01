@@ -111,7 +111,7 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   // High res
   writeRegister8(MMA8451_REG_CTRL_REG2, 0x02);
   // Low noise!
-  writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
+  writeRegister8(MMA8451_REG_CTRL_REG1, 0x04);
   // DRDY on INT1
   writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
   writeRegister8(MMA8451_REG_CTRL_REG5, 0x01);
@@ -160,7 +160,7 @@ void Adafruit_MMA8451::read(void) {
 
 /**************************************************************************/
 /*!
-    @brief  Read the orientation: 
+    @brief  Read the orientation:
     Portrait/Landscape + Up/Down/Left/Right + Front/Back
 */
 /**************************************************************************/
@@ -216,7 +216,7 @@ mma8451_dataRate_t Adafruit_MMA8451::getDataRate(void)
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
@@ -239,7 +239,7 @@ bool Adafruit_MMA8451::getEvent(sensors_event_t *event) {
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the sensor_t data
 */
 /**************************************************************************/
@@ -254,7 +254,7 @@ void Adafruit_MMA8451::getSensor(sensor_t *sensor) {
   sensor->sensor_id   = _sensorID;
   sensor->type        = SENSOR_TYPE_ACCELEROMETER;
   sensor->min_delay   = 0;
-  sensor->max_value   = 0;             
+  sensor->max_value   = 0;
   sensor->min_value   = 0;
-  sensor->resolution  = 0;             
+  sensor->resolution  = 0;
 }
