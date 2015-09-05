@@ -170,7 +170,7 @@ uint8_t Adafruit_MMA8451::getOrientation(void) {
 
 /**************************************************************************/
 /*!
-5yi     @brief  Sets the g range for the accelerometer
+    @brief  Sets the g range for the accelerometer
 */
 /**************************************************************************/
 void Adafruit_MMA8451::setRange(mma8451_range_t range)
