@@ -24,7 +24,11 @@
 #endif
 
 #include <Wire.h>
+
+#define USE_SENSOR    // Support the sesor library; comment out to compile/run without sensor library.
+#ifdef USE_SENSOR
 #include <Adafruit_Sensor.h>
+#endif
 
 /*=========================================================================
     I2C ADDRESS/BITS
@@ -73,14 +77,22 @@ typedef enum
   MMA8451_DATARATE_12_5_HZ    = 0b101, // 6.25Hz
   MMA8451_DATARATE_6_25HZ     = 0b110, // 3.13Hz
   MMA8451_DATARATE_1_56_HZ    = 0b111, // 1.56Hz
+
+  MMA8451_DATARATE_MASK       = 0b111
 } mma8451_dataRate_t;
 
-class Adafruit_MMA8451 : public Adafruit_Sensor {
+
+
+class Adafruit_MMA8451 
+#ifdef USE_SENSOR
+: public Adafruit_Sensor 
+#endif
+{
  public:
   Adafruit_MMA8451(int32_t id = -1);
 
   
-  bool       begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
+  bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
 
   void read();
 
@@ -90,8 +102,10 @@ class Adafruit_MMA8451 : public Adafruit_Sensor {
   void setDataRate(mma8451_dataRate_t dataRate);
   mma8451_dataRate_t getDataRate(void);
 
+#ifdef USE_SENSOR
   bool getEvent(sensors_event_t *event);
   void getSensor(sensor_t *sensor);
+#endif
 
   uint8_t getOrientation(void);
 

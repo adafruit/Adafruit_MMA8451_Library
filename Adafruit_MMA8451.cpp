@@ -175,10 +175,10 @@ uint8_t Adafruit_MMA8451::getOrientation(void) {
 /**************************************************************************/
 void Adafruit_MMA8451::setRange(mma8451_range_t range)
 {
-  // lower bits are range
-  writeRegister8(MMA8451_REG_CTRL_REG1, 0x00); // deactivate
+  uint8_t reg1 = readRegister8(MMA8451_REG_CTRL_REG1);
+  writeRegister8(MMA8451_REG_CTRL_REG1, 0x00);            // deactivate
   writeRegister8(MMA8451_REG_XYZ_DATA_CFG, range & 0x3);
-  writeRegister8(MMA8451_REG_CTRL_REG1, 0x01); // active, max rate
+  writeRegister8(MMA8451_REG_CTRL_REG1, reg1 | 0x01);     // activate
 }
 
 /**************************************************************************/
@@ -200,9 +200,10 @@ mma8451_range_t Adafruit_MMA8451::getRange(void)
 void Adafruit_MMA8451::setDataRate(mma8451_dataRate_t dataRate)
 {
   uint8_t ctl1 = readRegister8(MMA8451_REG_CTRL_REG1);
-  ctl1 &= ~(0x38); // mask off bits
+  writeRegister8(MMA8451_REG_CTRL_REG1, 0x00);            // deactivate
+  ctl1 &= ~(MMA8451_DATARATE_MASK << 3);                  // mask off bits
   ctl1 |= (dataRate << 3);
-  writeRegister8(MMA8451_REG_CTRL_REG1, ctl1);
+  writeRegister8(MMA8451_REG_CTRL_REG1, ctl1 | 0x01);     // activate
 }
 
 /**************************************************************************/
@@ -212,9 +213,10 @@ void Adafruit_MMA8451::setDataRate(mma8451_dataRate_t dataRate)
 /**************************************************************************/
 mma8451_dataRate_t Adafruit_MMA8451::getDataRate(void)
 {
-  return (mma8451_dataRate_t)((readRegister8(MMA8451_REG_CTRL_REG1) >> 3)& 0x07);
+  return (mma8451_dataRate_t)((readRegister8(MMA8451_REG_CTRL_REG1) >> 3) & MMA8451_DATARATE_MASK);
 }
 
+#ifdef USE_SENSOR
 /**************************************************************************/
 /*!
     @brief  Gets the most recent sensor event
@@ -258,3 +260,4 @@ void Adafruit_MMA8451::getSensor(sensor_t *sensor) {
   sensor->min_value   = 0;
   sensor->resolution  = 0;
 }
+#endif
