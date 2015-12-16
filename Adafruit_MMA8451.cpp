@@ -231,9 +231,10 @@ bool Adafruit_MMA8451::getEvent(sensors_event_t *event) {
 
   read();
 
-  event->acceleration.x = x_g;
-  event->acceleration.y = y_g;
-  event->acceleration.z = z_g;
+  // Convert Acceleration Data to m/s^2
+  event->acceleration.x = x_g * SENSORS_GRAVITY_STANDARD;
+  event->acceleration.y = y_g * SENSORS_GRAVITY_STANDARD;
+  event->acceleration.z = z_g * SENSORS_GRAVITY_STANDARD;
 
   return true;
 }
