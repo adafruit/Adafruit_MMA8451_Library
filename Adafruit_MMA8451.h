@@ -53,10 +53,10 @@
 #define MMA8451_PL_PUB            1
 #define MMA8451_PL_PDF            2
 #define MMA8451_PL_PDB            3
-#define MMA8451_PL_LRF            4  
-#define MMA8451_PL_LRB            5  
-#define MMA8451_PL_LLF            6  
-#define MMA8451_PL_LLB            7  
+#define MMA8451_PL_LRF            4
+#define MMA8451_PL_LRB            5
+#define MMA8451_PL_LLF            6
+#define MMA8451_PL_LLB            7
 
 typedef enum
 {
@@ -69,13 +69,13 @@ typedef enum
 /* Used with register 0x2A (MMA8451_REG_CTRL_REG1) to set bandwidth */
 typedef enum
 {
-  MMA8451_DATARATE_800_HZ     = 0b000, //  400Hz 
-  MMA8451_DATARATE_400_HZ     = 0b001, //  200Hz
-  MMA8451_DATARATE_200_HZ     = 0b010, //  100Hz
-  MMA8451_DATARATE_100_HZ     = 0b011, //   50Hz
-  MMA8451_DATARATE_50_HZ      = 0b100, //   25Hz
-  MMA8451_DATARATE_12_5_HZ    = 0b101, // 6.25Hz
-  MMA8451_DATARATE_6_25HZ     = 0b110, // 3.13Hz
+  MMA8451_DATARATE_800_HZ     = 0b000, //  800Hz
+  MMA8451_DATARATE_400_HZ     = 0b001, //  400Hz
+  MMA8451_DATARATE_200_HZ     = 0b010, //  200Hz
+  MMA8451_DATARATE_100_HZ     = 0b011, //  100Hz
+  MMA8451_DATARATE_50_HZ      = 0b100, //   50Hz
+  MMA8451_DATARATE_12_5_HZ    = 0b101, // 12.5Hz
+  MMA8451_DATARATE_6_25HZ     = 0b110, // 6.25Hz
   MMA8451_DATARATE_1_56_HZ    = 0b111, // 1.56Hz
 
   MMA8451_DATARATE_MASK       = 0b111
@@ -83,15 +83,15 @@ typedef enum
 
 
 
-class Adafruit_MMA8451 
+class Adafruit_MMA8451
 #ifdef USE_SENSOR
-: public Adafruit_Sensor 
+: public Adafruit_Sensor
 #endif
 {
  public:
   Adafruit_MMA8451(int32_t id = -1);
 
-  
+
   bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
 
   void read();
