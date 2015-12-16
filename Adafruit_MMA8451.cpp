@@ -110,8 +110,6 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   writeRegister8(MMA8451_REG_XYZ_DATA_CFG, MMA8451_RANGE_4_G);
   // High res
   writeRegister8(MMA8451_REG_CTRL_REG2, 0x02);
-  // Low noise!
-  writeRegister8(MMA8451_REG_CTRL_REG1, 0x04);
   // DRDY on INT1
   writeRegister8(MMA8451_REG_CTRL_REG4, 0x01);
   writeRegister8(MMA8451_REG_CTRL_REG5, 0x01);
@@ -119,8 +117,8 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   // Turn on orientation config
   writeRegister8(MMA8451_REG_PL_CFG, 0x40);
 
-  // Activate!
-  writeRegister8(MMA8451_REG_CTRL_REG1, 0x01); // active, max rate
+  // Activate at max rate, low noise mode
+  writeRegister8(MMA8451_REG_CTRL_REG1, 0x01 | 0x04);
 
   /*
   for (uint8_t i=0; i<0x30; i++) {
