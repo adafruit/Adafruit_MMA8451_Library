@@ -183,7 +183,7 @@ void Adafruit_MMA8451::setRange(mma8451_range_t range)
 
 /**************************************************************************/
 /*!
-    @brief  Sets the g range for the accelerometer
+    @brief  Gets the g range for the accelerometer
 */
 /**************************************************************************/
 mma8451_range_t Adafruit_MMA8451::getRange(void)
@@ -208,7 +208,7 @@ void Adafruit_MMA8451::setDataRate(mma8451_dataRate_t dataRate)
 
 /**************************************************************************/
 /*!
-    @brief  Sets the data rate for the MMA8451 (controls power consumption)
+    @brief  Gets the data rate for the MMA8451 (controls power consumption)
 */
 /**************************************************************************/
 mma8451_dataRate_t Adafruit_MMA8451::getDataRate(void)
@@ -236,7 +236,7 @@ bool Adafruit_MMA8451::getEvent(sensors_event_t *event) {
   event->acceleration.x = x_g;
   event->acceleration.y = y_g;
   event->acceleration.z = z_g;
-  
+
   return true;
 }
 
