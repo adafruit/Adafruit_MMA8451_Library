@@ -17,6 +17,9 @@
 */
 /**************************************************************************/
 
+#ifndef _ADAFRUIT_MMA8451_H_
+#define _ADAFRUIT_MMA8451_H_
+
 #if ARDUINO >= 100
  #include "Arduino.h"
 #else
@@ -118,3 +121,5 @@ class Adafruit_MMA8451
   int32_t _sensorID;
   int8_t  _i2caddr;
 };
+
+#endif
