@@ -13,7 +13,8 @@
 
     @section  HISTORY
 
-    v1.0  - First release
+    v1.0    - First release
+    2017.04 - Add support for multiple I2C buses (Max Vilimpoc / unu GmbH)
 */
 /**************************************************************************/
 
@@ -26,9 +27,17 @@
  #include "WProgram.h"
 #endif
 
-#include <Wire.h>
+#if defined(CORE_TEENSY)
+ // Teensy needs this to use multiple I2C buses.
+ // When using with PlatformIO, make sure 'lib_ignore = Wire' is set in platformio.ini
+ #include <i2c_t3.h>
+ typedef i2c_t3 WireClass;
+#else
+ #include <Wire.h>
+ typedef TwoWire WireClass;
+#endif
 
-#define USE_SENSOR    // Support the sesor library; comment out to compile/run without sensor library.
+#define USE_SENSOR    // Support the sensor library; comment out to compile/run without sensor library.
 #ifdef USE_SENSOR
 #include <Adafruit_Sensor.h>
 #endif
@@ -84,8 +93,6 @@ typedef enum
   MMA8451_DATARATE_MASK       = 0b111
 } mma8451_dataRate_t;
 
-
-
 class Adafruit_MMA8451
 #ifdef USE_SENSOR
 : public Adafruit_Sensor
@@ -94,8 +101,12 @@ class Adafruit_MMA8451
  public:
   Adafruit_MMA8451(int32_t id = -1);
 
+  // Allow using multiple I2C buses.
+  Adafruit_MMA8451(WireClass & wire, uint8_t i2cAddress, int32_t id = -1);
 
   bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
+
+  bool setup();
 
   void read();
 
@@ -118,9 +129,14 @@ class Adafruit_MMA8451
   void writeRegister8(uint8_t reg, uint8_t value);
  protected:
   uint8_t readRegister8(uint8_t reg);
+
+  inline uint8_t i2cread(void);
+  inline void i2cwrite(uint8_t x);
+
  private:
-  int32_t _sensorID;
-  int8_t  _i2caddr;
+  WireClass & _wire;
+  int32_t     _sensorID;
+  int8_t      _i2caddr;
 };
 
 #endif
