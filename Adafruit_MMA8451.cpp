@@ -88,14 +88,20 @@ Adafruit_MMA8451::Adafruit_MMA8451(int32_t sensorID) : _wire(Wire), _sensorID(se
     @brief  Instantiates a new MMA8451 class in I2C mode, allows using
             more than one I2C bus on systems that support it.
 
-    If you use this constructor, be very careful using .begin() with default
-    parameters.
+    If you use this constructor, be very careful using Adafruit_MMA8541::begin() 
+    with default parameters.
 
-    Instead, use .setup(), for example:
+    Instead, configure the I2C bus instance first, then use .setup().
+
+    For example, on Teensy:
 
     Adafruit_MMA8451 sensor(Wire1, 0x1C);
-    sensor.setup();
-    sensor.read();
+
+    void setup() {
+        Wire1.begin(I2C_MASTER, 0x00, I2C_PINS_16_17, I2C_PULLUP_EXT, 400000);
+        sensor.setup();
+        sensor.read();
+    }
 */
 /**************************************************************************/
 Adafruit_MMA8451::Adafruit_MMA8451(WireClass & wire, uint8_t i2cAddress, int32_t sensorID) : _wire(wire), _sensorID(sensorID), _i2caddr(i2cAddress) {
