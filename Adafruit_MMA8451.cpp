@@ -66,11 +66,20 @@ void Adafruit_MMA8451::writeRegister8(uint8_t reg, uint8_t value) {
 */
 /**************************************************************************/
 uint8_t Adafruit_MMA8451::readRegister8(uint8_t reg) {
+    
+//undocumented version of requestFrom handles repeated starts on Arduino Due
+#ifdef __SAM3X8E__
+    Wire.requestFrom(_i2caddr, 1, reg, 1, true);
+#else
+    //I don't know - maybe the other verion of requestFrom works on all platforms.
+    //  honestly, I don't want to go through and test them all.  Doing it this way
+    //  is already known to work on everything else
     Wire.beginTransmission(_i2caddr);
     i2cwrite(reg);
     Wire.endTransmission(false); // MMA8451 + friends uses repeated start!!
-
     Wire.requestFrom(_i2caddr, 1);
+#endif
+    
     if (! Wire.available()) return -1;
     return (i2cread());
 }
