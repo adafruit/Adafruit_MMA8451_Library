@@ -96,6 +96,7 @@ class Adafruit_MMA8451
 
 
   bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
+  bool begin(uint8_t sdaPin, uint8_t sclPin, uint8_t addr = MMA8451_DEFAULT_ADDRESS);
 
   void read();
 

@@ -14,6 +14,7 @@
     @section  HISTORY
 
     v1.0  - First release
+    v1.1  - add support for different I2C pins
 */
 /**************************************************************************/
 
@@ -66,7 +67,7 @@ void Adafruit_MMA8451::writeRegister8(uint8_t reg, uint8_t value) {
 */
 /**************************************************************************/
 uint8_t Adafruit_MMA8451::readRegister8(uint8_t reg) {
-    
+
 //undocumented version of requestFrom handles repeated starts on Arduino Due
 #ifdef __SAM3X8E__
     Wire.requestFrom(_i2caddr, 1, reg, 1, true);
@@ -79,7 +80,7 @@ uint8_t Adafruit_MMA8451::readRegister8(uint8_t reg) {
     Wire.endTransmission(false); // MMA8451 + friends uses repeated start!!
     Wire.requestFrom(_i2caddr, 1);
 #endif
-    
+
     if (! Wire.available()) return -1;
     return (i2cread());
 }
@@ -98,8 +99,8 @@ Adafruit_MMA8451::Adafruit_MMA8451(int32_t sensorID) {
     @brief  Setups the HW (reads coefficients values, etc.)
 */
 /**************************************************************************/
-bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
-  Wire.begin();
+bool Adafruit_MMA8451::begin(uint8_t sdaPin, uint8_t sclPin, uint8_t i2caddr) {
+  Wire.begin(sdaPin, sclPin);
   _i2caddr = i2caddr;
 
   /* Check connection */
@@ -107,7 +108,7 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   if (deviceid != 0x1A)
   {
     /* No MMA8451 detected ... return false */
-    //Serial.println(deviceid, HEX);
+    Serial.println(deviceid, HEX);
     return false;
   }
 
@@ -138,6 +139,10 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
   */
 
   return true;
+}
+
+bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
+  return begin(SDA, SCL, i2caddr);
 }
 
 
