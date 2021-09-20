@@ -85,9 +85,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abe9c55b19613de0b6e8d95330e1d7fc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___m_m_a8451.html#abe9c55b19613de0b6e8d95330e1d7fc8">Adafruit_MMA8451</a> (int32_t id=-1)</td></tr>
 <tr class="memdesc:abe9c55b19613de0b6e8d95330e1d7fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adafruit MMA8451 object.  <a href="#abe9c55b19613de0b6e8d95330e1d7fc8">More...</a><br /></td></tr>
 <tr class="separator:abe9c55b19613de0b6e8d95330e1d7fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d28eaee49914f04b845fd97034209af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___m_m_a8451.html#a2d28eaee49914f04b845fd97034209af">begin</a> (uint8_t addr=<a class="el" href="_adafruit___m_m_a8451_8h.html#a9061ba9787c4f607b1fe7ce60d7a3d8a">MMA8451_DEFAULT_ADDRESS</a>)</td></tr>
-<tr class="memdesc:a2d28eaee49914f04b845fd97034209af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects with the MMA8451.  <a href="#a2d28eaee49914f04b845fd97034209af">More...</a><br /></td></tr>
-<tr class="separator:a2d28eaee49914f04b845fd97034209af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8728e970324943d54f791e35323a1827"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___m_m_a8451.html#a8728e970324943d54f791e35323a1827">begin</a> (uint8_t addr=<a class="el" href="_adafruit___m_m_a8451_8h.html#a9061ba9787c4f607b1fe7ce60d7a3d8a">MMA8451_DEFAULT_ADDRESS</a>, TwoWire *theWire=&amp;Wire)</td></tr>
+<tr class="memdesc:a8728e970324943d54f791e35323a1827"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects with the MMA8451.  <a href="#a8728e970324943d54f791e35323a1827">More...</a><br /></td></tr>
+<tr class="separator:a8728e970324943d54f791e35323a1827"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3afd977a61f063ef2d4707c36434d272"><td class="memItemLeft" align="right" valign="top"><a id="a3afd977a61f063ef2d4707c36434d272"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___m_m_a8451.html#a3afd977a61f063ef2d4707c36434d272">read</a> ()</td></tr>
 <tr class="memdesc:a3afd977a61f063ef2d4707c36434d272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data from the sensor. <br /></td></tr>
@@ -177,8 +177,8 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2d28eaee49914f04b845fd97034209af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d28eaee49914f04b845fd97034209af">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="a8728e970324943d54f791e35323a1827"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8728e970324943d54f791e35323a1827">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,8 +187,18 @@ Protected Member Functions</h2></td></tr>
           <td class="memname">bool Adafruit_MMA8451::begin </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>addr</em> = <code><a class="el" href="_adafruit___m_m_a8451_8h.html#a9061ba9787c4f607b1fe7ce60d7a3d8a">MMA8451_DEFAULT_ADDRESS</a></code></td><td>)</td>
+          <td class="paramname"><em>addr</em> = <code><a class="el" href="_adafruit___m_m_a8451_8h.html#a9061ba9787c4f607b1fe7ce60d7a3d8a">MMA8451_DEFAULT_ADDRESS</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">TwoWire *&#160;</td>
+          <td class="paramname"><em>theWire</em> = <code>&amp;Wire</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -198,6 +208,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">addr</td><td>Address of the MMA8451 </td></tr>
+    <tr><td class="paramname">theWire</td><td>TwoWire bus to use </td></tr>
   </table>
   </dd>
 </dl>
