@@ -93,6 +93,7 @@ public:
   /*!
    * @brief Connects with the MMA8451
    * @param addr Address of the MMA8451
+   * @param theWire TwoWire bus to use
    * @return Returns a boolean
    */
   bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
