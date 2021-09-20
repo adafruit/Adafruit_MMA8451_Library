@@ -30,28 +30,6 @@
 #endif
 
 #include <Adafruit_MMA8451.h>
-#include <Wire.h>
-
-/**************************************************************************/
-/*!
-    @brief  Abstract away platform differences in Arduino wire library
-*/
-/**************************************************************************/
-static inline uint8_t i2cread(void) {
-#if ARDUINO >= 100
-  return Wire.read();
-#else
-  return Wire.receive();
-#endif
-}
-
-static inline void i2cwrite(uint8_t x) {
-#if ARDUINO >= 100
-  Wire.write((uint8_t)x);
-#else
-  Wire.send(x);
-#endif
-}
 
 /**************************************************************************/
 /*!
@@ -59,10 +37,8 @@ static inline void i2cwrite(uint8_t x) {
 */
 /**************************************************************************/
 void Adafruit_MMA8451::writeRegister8(uint8_t reg, uint8_t value) {
-  Wire.beginTransmission(_i2caddr);
-  i2cwrite((uint8_t)reg);
-  i2cwrite((uint8_t)(value));
-  Wire.endTransmission();
+  uint8_t buffer[2] = {reg, value};
+  i2c_dev->write(buffer, 2);
 }
 
 /**************************************************************************/
@@ -71,24 +47,9 @@ void Adafruit_MMA8451::writeRegister8(uint8_t reg, uint8_t value) {
 */
 /**************************************************************************/
 uint8_t Adafruit_MMA8451::readRegister8(uint8_t reg) {
-
-// undocumented version of requestFrom handles repeated starts on Arduino Due
-#ifdef __SAM3X8E__
-  Wire.requestFrom(_i2caddr, 1, reg, 1, true);
-#else
-  // I don't know - maybe the other verion of requestFrom works on all
-  // platforms.
-  //  honestly, I don't want to go through and test them all.  Doing it this way
-  //  is already known to work on everything else
-  Wire.beginTransmission(_i2caddr);
-  i2cwrite(reg);
-  Wire.endTransmission(false); // MMA8451 + friends uses repeated start!!
-  Wire.requestFrom(_i2caddr, 1);
-#endif
-
-  if (!Wire.available())
-    return -1;
-  return (i2cread());
+  uint8_t buffer[1] = {reg};
+  i2c_dev->write_then_read(buffer, 1, buffer, 1);
+  return buffer[0];
 }
 
 /**************************************************************************/
@@ -103,9 +64,12 @@ Adafruit_MMA8451::Adafruit_MMA8451(int32_t sensorID) { _sensorID = sensorID; }
     @brief  Setups the HW (reads coefficients values, etc.)
 */
 /**************************************************************************/
-bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
-  Wire.begin();
-  _i2caddr = i2caddr;
+bool Adafruit_MMA8451::begin(uint8_t i2caddr, TwoWire *theWire) {
+  if (i2c_dev)
+    delete i2c_dev;
+  i2c_dev = new Adafruit_I2CDevice(i2caddr, theWire);
+  if (!i2c_dev->begin())
+    return false;
 
   /* Check connection */
   uint8_t deviceid = readRegister8(MMA8451_REG_WHOAMI);
@@ -147,23 +111,11 @@ bool Adafruit_MMA8451::begin(uint8_t i2caddr) {
 
 void Adafruit_MMA8451::read(void) {
   // read x y z at once
-  Wire.beginTransmission(_i2caddr);
-  i2cwrite(MMA8451_REG_OUT_X_MSB);
-  Wire.endTransmission(false); // MMA8451 + friends uses repeated start!!
-
-  Wire.requestFrom(_i2caddr, 6);
-  x = Wire.read();
-  x <<= 8;
-  x |= Wire.read();
-  x >>= 2;
-  y = Wire.read();
-  y <<= 8;
-  y |= Wire.read();
-  y >>= 2;
-  z = Wire.read();
-  z <<= 8;
-  z |= Wire.read();
-  z >>= 2;
+  uint8_t buffer[6] = {MMA8451_REG_OUT_X_MSB, 0, 0, 0, 0, 0};
+  i2c_dev->write_then_read(buffer, 1, buffer, 6);
+  x = ((int16_t(buffer[0]) << 8) | int16_t(buffer[1])) >> 2;
+  y = ((int16_t(buffer[2]) << 8) | int16_t(buffer[3])) >> 2;
+  z = ((int16_t(buffer[4]) << 8) | int16_t(buffer[5])) >> 2;
 
   uint8_t range = getRange();
   uint16_t divider = 1;

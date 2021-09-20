@@ -11,7 +11,7 @@
 #include "WProgram.h"
 #endif
 
-#include <Wire.h>
+#include <Adafruit_I2CDevice.h>
 
 #define USE_SENSOR //!< Support the sensor library; comment out to compile/run
                    //!< without sensor library.
@@ -93,9 +93,10 @@ public:
   /*!
    * @brief Connects with the MMA8451
    * @param addr Address of the MMA8451
+   * @param theWire TwoWire bus to use
    * @return Returns a boolean
    */
-  bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS);
+  bool begin(uint8_t addr = MMA8451_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
 
   void read(); //!< @brief Reads data from the sensor
 
@@ -151,7 +152,7 @@ protected:
 
 private:
   int32_t _sensorID;
-  int8_t _i2caddr;
+  Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
 };
 
 #endif
