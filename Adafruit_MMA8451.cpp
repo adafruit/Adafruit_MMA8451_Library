@@ -113,9 +113,9 @@ void Adafruit_MMA8451::read(void) {
   // read x y z at once
   uint8_t buffer[6] = {MMA8451_REG_OUT_X_MSB, 0, 0, 0, 0, 0};
   i2c_dev->write_then_read(buffer, 1, buffer, 6);
-  x = ((int16_t(buffer[0]) << 8) | int16_t(buffer[1])) >> 2;
-  y = ((int16_t(buffer[2]) << 8) | int16_t(buffer[3])) >> 2;
-  z = ((int16_t(buffer[4]) << 8) | int16_t(buffer[5])) >> 2;
+  x = int16_t(((buffer[0] << 8) | buffer[1])) >> 2;
+  y = int16_t(((buffer[2] << 8) | buffer[3])) >> 2;
+  z = int16_t(((buffer[4] << 8) | buffer[5])) >> 2;
 
   uint8_t range = getRange();
   uint16_t divider = 1;
