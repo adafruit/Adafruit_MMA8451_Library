@@ -142,7 +142,6 @@ public:
    */
   void writeRegister8(uint8_t reg, uint8_t value);
 
-protected:
   /*!
    * @brief Reads from 8 bit register
    * @param reg Register
